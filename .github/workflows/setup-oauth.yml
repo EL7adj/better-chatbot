@@ -1,0 +1,30 @@
+name: Setup OAuth and Push
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Create .env file
+        run: |
+          echo "OPENAI_API_KEY=sk-proj-lbhhdFsEL32m0309y1dS18K9LyQzF7uGIRx59T7Wsn53C9Mf-6hXOCEJyv0U-DRBkFozX1lYST3B1bkFJTIDAtryDpyimyupFYtUA9HEtJ_3FP_3gIkdIDPClTK0midu_4nGSHph90ybuLn26VPa0dUi36GA" >> .env
+          echo "POSTGRES_URL=postgresql://neondb_owner:npg_O1XSUoAEl2rg@ep-shy-frost-abni56xm-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require" >> .env
+          echo "GITHUB_CLIENT_ID=Ov231lYcEsjEkpy6octp" >> .env
+          echo "GITHUB_CLIENT_SECRET=645a178c3a3b692327bb60ac375bc262aa4bdbc" >> .env
+          echo "GOOGLE_CLIENT_ID=607773517773-f5dlouassr3tah13hvrq2cnv0t37lvui2.apps.googleusercontent.com" >> .env
+          echo "GOOGLE_CLIENT_SECRET=GOCSPX-9oUG1xdfJoVkVyVBF5ibLB_bj2" >> .env
+          echo "NEXT_PUBLIC_GITHUB_CLIENT_ID=Ov231lYcEsjEkpy6octp" >> .env
+          echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=607773517773-f5dlouassr3tah13hvrq2cnv0t37lvui2.apps.googleusercontent.com" >> .env
+
+      - name: Commit and push .env
+        run: |
+          git config --global user.name "el7adj-bot"
+          git config --global user.email "el7adj@example.com"
+          git add .env
+          git commit -m "Add .env file with OAuth config"
+          git push
