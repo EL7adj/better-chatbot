@@ -245,11 +245,13 @@ export function objectFlow<T extends Record<string, any>>(obj: T) {
     },
     getByPath<U>(path: string[]): U | undefined {
       let result: any = obj;
-      path.find((p) => {
-        result = result?.[p];
-        return !result;
-      });
-      return result;
+      for (const p of path) {
+        if (result == null) {
+          return undefined;
+        }
+        result = result[p];
+      }
+      return result as U;
     },
     setByPath(path: string[], value: any) {
       path.reduce((acc, cur, i) => {
