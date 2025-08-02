@@ -136,4 +136,17 @@ describe("objectFlow", () => {
     const result = objectFlow(testObj).find((value) => value > 10);
     expect(result).toBeUndefined();
   });
+
+  test("getByPath retrieves nested values", () => {
+    const nested = { a: { b: { c: 1 }, d: 0, e: false, f: "" } };
+    expect(objectFlow(nested).getByPath(["a", "b", "c"])).toBe(1);
+    expect(objectFlow(nested).getByPath(["a", "d"])).toBe(0);
+    expect(objectFlow(nested).getByPath(["a", "e"])).toBe(false);
+    expect(objectFlow(nested).getByPath(["a", "f"])).toBe("");
+  });
+
+  test("getByPath returns undefined for missing path", () => {
+    const nested = { a: 0 };
+    expect(objectFlow(nested).getByPath(["a", "b"])).toBeUndefined();
+  });
 });
